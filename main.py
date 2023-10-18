@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-This notebook is work in PADDLE AI STUDIO.
+For training and evaluating the models including ViT and ResNet.
 
 ----------------------------------
 Version    : 0.0.1
@@ -118,6 +118,9 @@ def main():
             loss_all += loss.item()
             model.clear_gradients()
         loss_all = float(loss_all) / dataset_train.__len__()
+        save_path = Path(f'./checkpoint/{config.model_name}/{epoch:02d}.pdparams')
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        paddle.save(model.state_dict(), str(save_path))
 
         model.eval()
         acc, f1 = [], []
